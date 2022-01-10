@@ -1,0 +1,27 @@
+name: Build And Push Docker Image To ECR
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      
+    - name: Amazon ECR "Login" Action for GitHub Actions
+      # You may pin to the exact commit or the version.
+      # uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
+      uses: aws-actions/amazon-ecr-login@v1
+      with:
+        # A comma-delimited list of AWS account IDs that are associated with the ECR registries. If you do not specify a registry, the default ECR registry is assumed.
+        registries: ${{ secrets.ECR_REPO }} # optional
+
