@@ -42,13 +42,23 @@ jobs:
     - name: Display $IMAGE_TAG
       run: |
         source REGISTRY_IMAGE
-        echo $IMAGE
+        echo $IMAGE_TAG
+        echo $ECR_REGISTRY
     
-
-    - name: Deploy
-      uses: WyriHaximus/github-action-helm3@v2
+    - name: helm deploy
+      uses: koslib/helm-eks-action@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
       with:
-        exec: |
+        plugins: "https://github.com/jkroepke/helm-secrets" # optional
+        command: |
           source REGISTRY_IMAGE
           helm upgrade -i flask-app ./deployment/helm/deploy --wait --atomic --namespace=default --set image.repository=$ECR_REGISTRY --set image.tag=$IMAGE_TAG
-        kubeconfig: '${{ secrets.KUBECONFIG }}'
+
+    # - name: Deploy
+    #   uses: WyriHaximus/github-action-helm3@v2
+    #   with:
+    #     exec: |
+    #       source REGISTRY_IMAGE
+    #       helm upgrade -i flask-app ./deployment/helm/deploy --wait --atomic --namespace=default --set image.repository=$ECR_REGISTRY --set image.tag=$IMAGE_TAG
+    #     kubeconfig: '${{ secrets.KUBECONFIG }}'
