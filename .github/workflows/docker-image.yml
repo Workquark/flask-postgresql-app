@@ -36,5 +36,9 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-
+        echo "IMAGE=$ECR_REGISTRY:$IMAGE_TAG" > REGISTRY_IMAGE
+    
+    - name: Display $IMAGE_TAG
+      run: |
+        source REGISTRY_IMAGE
+        echo $IMAGE
