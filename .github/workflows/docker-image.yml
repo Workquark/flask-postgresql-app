@@ -50,5 +50,5 @@ jobs:
       with:
         exec: |
           source REGISTRY_IMAGE
-          helm upgrade -i flask-app ./deployment/helm/deploy --wait --atomic --namespace=default --set image.repository=$ECR_REGISTRY image.tag=$IMAGE_TAG
+          helm upgrade -i flask-app ./deployment/helm/deploy --wait --atomic --namespace=default --set image.repository=$ECR_REGISTRY --set image.tag=$IMAGE_TAG
         kubeconfig: '${{ secrets.KUBECONFIG }}'
