@@ -5,12 +5,13 @@
 replicaCount: 1
 
 image:
-  repository: 598772586369.dkr.ecr.us-east-1.amazonaws.com
+  repository: 598772586369.dkr.ecr.us-east-1.amazonaws.com/olien-development
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
-imagePullSecrets: []
+imagePullSecrets: 
+  - name: regcred
 nameOverride: ""
 fullnameOverride: ""
 
