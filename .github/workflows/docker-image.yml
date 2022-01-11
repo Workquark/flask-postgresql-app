@@ -36,7 +36,8 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "IMAGE=$ECR_REGISTRY:$IMAGE_TAG" > REGISTRY_IMAGE
+        echo "ECR_REGISTRY=$ECR_REGISTRY" > REGISTRY_IMAGE
+        echo "IMAGE_TAG=$IMAGE_TAG" > REGISTRY_IMAGE
     
     - name: Display $IMAGE_TAG
       run: |
@@ -47,5 +48,7 @@ jobs:
     - name: Deploy
       uses: WyriHaximus/github-action-helm3@v2
       with:
-        exec: helm upgrade -i ./deployment/helm/deploy --install --wait --atomic --namespace=default 
+        exec: |
+          source REGISTRY_IMAGE
+          helm upgrade -i flask-app ./deployment/helm/deploy --install --wait --atomic --namespace=default --set image.repository=$ECR_REGISTRY image.tag=$IMAGE_TAG
         kubeconfig: '${{ secrets.KUBECONFIG }}'
