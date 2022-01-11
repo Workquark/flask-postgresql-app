@@ -14,9 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      
+     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -52,6 +50,9 @@ jobs:
       with:
         plugins: "https://github.com/jkroepke/helm-secrets" # optional
         command: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          ./aws/install
           source REGISTRY_IMAGE
           helm upgrade -i flask-app ./deployment/helm/deploy --wait --atomic --namespace=default --set image.repository=$ECR_REGISTRY --set image.tag=$IMAGE_TAG
 
