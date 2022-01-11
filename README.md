@@ -16,3 +16,26 @@ The database connection information is specified via environment variables `DBHO
 # Contributing
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
+# Install cert manager - 
+
+```
+helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --version v1.6.1 \
+  # --set installCRDs=true
+```
+
+## Install github controller manager
+
+```
+helm upgrade --install \
+	--namespace actions-runner-system \
+	--create-namespace \
+	--set=authSecret.create=true \
+	--set=authSecret.github_token=glpat-Aw-cwCT-rPe-ZegxchL1 \
+ 	--wait actions-runner-controller actions-runner-controller/actions-runner-controller
+```
