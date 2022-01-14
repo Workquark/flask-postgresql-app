@@ -42,3 +42,5 @@ helm upgrade --install \
 
 
 ### Security group considerations - 
+
+  Consider the security group of worker should be able to reach out to control plane.
