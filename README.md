@@ -39,3 +39,6 @@ helm upgrade --install \
 	--set=authSecret.github_token=glpat-Aw-cwCT-rPe-ZegxchL1 \
  	--wait actions-runner-controller actions-runner-controller/actions-runner-controller
 ```
+
+
+### Security group considerations - 
